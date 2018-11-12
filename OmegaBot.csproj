@@ -5,4 +5,14 @@
         <TargetFramework>netcoreapp2.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00553" />
+      <PackageReference Include="DSharpPlus.CommandsNext" Version="3.2.3" />
+      <PackageReference Include="DSharpPlus.Interactivity" Version="3.2.3" />
+      <PackageReference Include="DSharpPlus.Lavalink" Version="4.0.0-nightly-00553" />
+      <PackageReference Include="DSharpPlus.VoiceNext" Version="3.2.3" />
+      <PackageReference Include="MySql.Data" Version="8.0.13" />
+    </ItemGroup>
+
+
 </Project>
