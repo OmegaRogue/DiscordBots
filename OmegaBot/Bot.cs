@@ -7,6 +7,7 @@ using System.Text;
 using OmegaBot.Entities;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using DSharpPlus.EventArgs;
 using System.Threading;
@@ -18,6 +19,7 @@ namespace OmegaBot
 {
     public class Bot : IDisposable
     {
+        
         private DiscordClient _client;
         private VoiceNextClient _voice;
         private InteractivityModule _interactivity;
@@ -174,8 +176,16 @@ namespace OmegaBot
                 
             };
 
+            _client.Heartbeated += async e =>
+            {
+                
+                
+            };
+            
             _cnext.RegisterCommands<Commands.Owner>();
             _cnext.RegisterCommands<Commands.Interactivity>();
+            
+            
 
             _client.Ready += OnReadyAsync;
         }
@@ -196,6 +206,7 @@ namespace OmegaBot
         {
             await Task.Yield();
             _starttimes.SocketStart = DateTime.Now;
+            await _client.UpdateStatusAsync(new DiscordGame("https://www.omegarogue.me"));
         }
 
         public void Dispose()
