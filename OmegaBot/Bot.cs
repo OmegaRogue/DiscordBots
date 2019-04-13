@@ -126,6 +126,7 @@ namespace OmegaBot
             _client.MessageReactionAdded += async e =>
             {
                 var check = DiscordEmoji.FromName(_client, ":Grid10x10:");
+                var quote = DiscordEmoji.FromName(_client, ":quote:");
                 if (e.Message.Reactions[0].Emoji.Equals(check))
                 {
 
@@ -150,6 +151,21 @@ namespace OmegaBot
 
                     }
                 }
+                if (e.Emoji.Equals(quote))
+                {
+                    var embed = new DiscordEmbedBuilder
+                    {
+                        Color = e.Message.Author is DiscordMember m ? m.Color : new DiscordColor(0xFF00FF),
+                        Description = e.Message.Content,
+                        Author = new DiscordEmbedBuilder.EmbedAuthor
+                        {
+                            Name = e.Message.Author is DiscordMember mx ? mx.DisplayName : e.Message.Author.Username,
+                            IconUrl = e.Message.Author.AvatarUrl
+                        }
+                    };
+                    await e.Message.RespondAsync(embed: embed);
+                }
+                
                 
             };
 
