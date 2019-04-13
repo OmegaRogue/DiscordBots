@@ -127,6 +127,7 @@ namespace OmegaBot
             {
                 var check = DiscordEmoji.FromName(_client, ":Grid10x10:");
                 var quote = DiscordEmoji.FromName(_client, ":quote:");
+                var cast = DiscordEmoji.FromName(_client, ":cast:");
                 if (e.Message.Reactions[0].Emoji.Equals(check))
                 {
 
@@ -164,6 +165,10 @@ namespace OmegaBot
                         }
                     };
                     await e.Message.RespondAsync(embed: embed);
+                } else if (e.Emoji.Equals(cast))
+                {
+                    await _client.SendMessageAsync(await _client.GetChannelAsync(UInt64.Parse("566706959332409394")),
+                        e.Message.Content);
                 }
                 
                 
