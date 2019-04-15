@@ -354,3 +354,4 @@ OmegaBot/obj/OmegaBot.csproj.nuget.g.targets
 bin/
 obj/
 old/
+!/OmegaBot/Converters/Arguments.cs

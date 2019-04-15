@@ -4,7 +4,7 @@ using System.IO;
 using DSharpPlus.Entities;
 using Newtonsoft.Json;
 
-namespace OmegaBot2.Entities
+namespace OmegaBot.Entities
 {
 	public class Config
 	{

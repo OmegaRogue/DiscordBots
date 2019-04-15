@@ -5,17 +5,19 @@ using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
-using OmegaBot2.Commands;
+using OmegaBot.Commands;
 using DSharpPlus.Interactivity;
 using Newtonsoft.Json;
-using OmegaBot2.Entities;
+using OmegaBot.Utils;
+using OmegaBot.Entities;
+
 
 namespace OmegaBot
 {
 	class Program
 	{
 		
-		static DiscordClient discord;
+		public static DiscordClient discord;
 
 		private static InteractivityExtension _interactivity;
 		static CommandsNextExtension commands;
@@ -24,6 +26,7 @@ namespace OmegaBot
 		
 		private static readonly CancellationTokenSource CancelSource = new CancellationTokenSource();
 		private static readonly CancellationToken Cancel = CancelSource.Token;
+
 		
 		static void Main(string[] args)
 		{
@@ -67,11 +70,11 @@ namespace OmegaBot
 				Services = deps
 				
 			});
-			
-			
+
 			
 			
 			commands.RegisterCommands<General>();
+			commands.RegisterCommands<Maths>();
 			
 			
 			await discord.ConnectAsync();
