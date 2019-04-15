@@ -1,10 +1,12 @@
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using DSharpPlus.Entities;
 using Newtonsoft.Json;
 
-namespace OmegaBot.Entities
+namespace OmegaBot2.Entities
 {
-	internal class Config
+	public class Config
 	{
 		/// <summary>
 		/// Your bot's token.
@@ -13,10 +15,28 @@ namespace OmegaBot.Entities
 		internal string Token = "Your token..";
 
 		/// <summary>
-		/// Your bot's prefix
+		/// Your bot's prefixes
 		/// </summary>
-		[JsonProperty("prefix")]
-		internal string Prefix = "'";
+		[JsonProperty("prefixes")]
+		public ImmutableArray<string> DefaultPrefixes { get; private set; } = new[] { "cc!", "//", "??" }.ToImmutableArray();
+
+		/// <summary>
+		/// Whether or not the bot accepts DM's.
+		/// </summary>
+		[JsonProperty("dms")] 
+		internal bool Dms = true;
+		
+		/// <summary>
+		/// Whether or not the bot's commands are Case Sensitive.
+		/// </summary>
+		[JsonProperty("Case Sensitivity")] 
+		internal bool Case = false;
+		
+		/// <summary>
+		/// Whether or not the bot sends help through DM's.
+		/// </summary>
+		[JsonProperty("DM Help")] 
+		internal bool DmHelp = true;
 
 		/// <summary>
 		/// Your favourite color.

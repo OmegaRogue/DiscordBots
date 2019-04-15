@@ -1,0 +1,8 @@
+{
+  "token":"Your token..",
+  "dms":true,
+  "Case Sensitivity":false,
+  "DM Help":true,
+  "color":"#7289DA",
+  "prefixes":["cc!","//","??"]
+}
