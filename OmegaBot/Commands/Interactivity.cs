@@ -119,7 +119,6 @@ namespace OmegaBot.Commands
 			{
 				await ctx.RespondAsync("It's a draw!\nDraw level: " + poll[0].Total + "\n" + "Total Participants: " + (poll[0].Total + poll[1].Total) + "\nhttps://tenor.com/view/monty-python-draw-gif-5447899");
 			}
-			await ctx.RespondAsync(string.Join("\n", poll));
 			
 		}
 

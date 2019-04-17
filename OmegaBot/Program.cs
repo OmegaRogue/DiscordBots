@@ -20,6 +20,7 @@ namespace OmegaBot
 
 		private static InteractivityExtension _interactivity;
 		static CommandsNextExtension _commands;
+		
 
 		private static Config _config;
 		
