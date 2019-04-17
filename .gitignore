@@ -355,3 +355,5 @@ bin/
 obj/
 old/
 !/OmegaBot/Converters/Arguments.cs
+/OmegaBot/MathStorage/
+OmegaBot/MathStorage/135048313916358657.usermath.json

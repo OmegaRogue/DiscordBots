@@ -4,13 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
 using Microsoft.Extensions.DependencyInjection;
 using OmegaBot.Commands;
-using DSharpPlus.Interactivity;
-using Newtonsoft.Json;
-using OmegaBot.Utils;
 using OmegaBot.Entities;
-
 
 namespace OmegaBot
 {
@@ -39,6 +37,7 @@ namespace OmegaBot
 
 			AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 			MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
+			
 		}
 		
 		static async Task MainAsync(string[] args)
@@ -55,7 +54,7 @@ namespace OmegaBot
 			});
 			
 			var deps = new ServiceCollection()
-				.AddSingleton(new Random())
+				.AddSingleton(new Random()).AddSingleton(CancelSource)
 				.BuildServiceProvider();
 			
 			
@@ -70,12 +69,26 @@ namespace OmegaBot
 				Services = deps
 				
 			});
+			
+
+			discord.MessageCreated += async e =>
+			{
+				if (e.Channel.Topic.Contains("OmegaBot Poll"))
+				{
+					await e.Message.CreateReactionAsync(DiscordEmoji.FromName(e.Client,":thumbsup:"));
+					await e.Message.CreateReactionAsync(DiscordEmoji.FromName(e.Client,":thumbsdown:"));
+				}
+			}; 
+			
+			
 
 			
 			
 			commands.RegisterCommands<General>();
 			commands.RegisterCommands<Maths>();
-			
+
+			await (await (await discord.GetChannelAsync(539979481969065984)).GetMessageAsync(567713416915976214))
+				.CreateReactionAsync(DiscordEmoji.FromName(discord,":thumbsup:"));
 			
 			await discord.ConnectAsync();
 			await Task.Delay(-1, Cancel);
@@ -84,9 +97,15 @@ namespace OmegaBot
 		
 		private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
 		{
-			discord.DisconnectAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+			
+			ExitAsync().ConfigureAwait(false).GetAwaiter().GetResult();
 			CancelSource.Cancel();
 			
+		}
+
+		static async Task ExitAsync()
+		{
+			await discord.UpdateStatusAsync(userStatus: UserStatus.Offline);
 		}
 	}
 }

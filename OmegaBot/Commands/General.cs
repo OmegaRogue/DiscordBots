@@ -1,19 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Interactivity;
-using Microsoft.VisualBasic;
-using OmegaBot;
-using OmegaBot.Utils;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.Data;
-using System.Globalization;
-using org.mariuszgromada.math.mxparser;
 
 namespace OmegaBot.Commands
 {
@@ -29,6 +16,13 @@ namespace OmegaBot.Commands
 		public async Task Hi(CommandContext ctx)
 		{
 			await ctx.RespondAsync($"👋 Hi, {ctx.User.Mention}!");
+		}
+
+		[Command("startdm"), RequireOwner]
+		public async Task StartDmAsync(CommandContext ctx)
+		{
+			await ctx.Member.SendMessageAsync("Text");
+			var member = ctx.Member;
 		}
 
 		

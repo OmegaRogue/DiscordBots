@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using DSharpPlus.Entities;
@@ -18,7 +17,7 @@ namespace OmegaBot.Entities
 		/// Your bot's prefixes
 		/// </summary>
 		[JsonProperty("prefixes")]
-		public ImmutableArray<string> DefaultPrefixes { get; private set; } = new[] { "/", "//", "??" }.ToImmutableArray();
+		public ImmutableArray<string> DefaultPrefixes { get; private set; } = new[] { "/", "//", "??"}.ToImmutableArray();
 
 		/// <summary>
 		/// Whether or not the bot accepts DM's.
