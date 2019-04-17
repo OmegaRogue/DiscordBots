@@ -87,33 +87,28 @@ namespace OmegaBot.Commands
 
 		[Command("vote"), Description("Run a poll with Upvote and Downvote.")]
 		public async Task VoteAsync(CommandContext ctx, [Description("What the poll is about.")] string topic ,[Description("How long should the poll last.")]
-			TimeSpan duration, [Description("What options should people have.")]
-			params DiscordEmoji[] options)
+			TimeSpan duration)
 		{
 			// first retrieve the interactivity module from the client
 			var interactivity = ctx.Client.GetInteractivity();
-			var pollOptions = options.Select(xe => xe.ToString());
 
+			var upVote = DiscordEmoji.FromName(ctx.Client, ":thumbsup:");
+			var downVote = DiscordEmoji.FromName(ctx.Client, ":thumbsdown:");
+			
 			
 			// then let's present the poll
 			var embed = new DiscordEmbedBuilder
 			{
-				Title = topic,
-				Description = string.Join(" ", pollOptions)
+				Title = ":tada::tada: Vote time! :tada::tada:",
+				Description = "Vote about " + topic + "\n:thumbsup:: yes\n:thumbsdown:: REEEE"
 			};
 			var msg = await ctx.RespondAsync(embed: embed);
 
-			// add the options as reactions
-			for (var i = 0; i < options.Length; i++)
-				await msg.CreateReactionAsync(options[i]);
 
-			// collect and filter responses
-			var pollResult = await interactivity.CollectReactionsAsync(msg, duration);
-			var results = pollResult.Where(xkvp => options.Contains(xkvp.Emoji))
-				.Select(xkvp => $"{xkvp.Emoji}: {xkvp.Total}");
+			var poll = await Interactiviti.DoPollAsync(msg, new[] {upVote, downVote}, PollBehaviour.Default, duration);
 
 			// and finally post the results
-			await ctx.RespondAsync(string.Join("\n", results));
+			await ctx.RespondAsync(string.Join("\n", poll));
 		}
 
 		#endregion
