@@ -86,9 +86,10 @@ namespace OmegaBot.Commands
 		}
 
 		[Command("vote"), Description("Run a poll with Upvote and Downvote.")]
-		public async Task VoteAsync(CommandContext ctx, [Description("What the poll is about.")] string topic, [Description("How long should the poll last.")]
-			TimeSpan duration)
+		public async Task VoteAsync(CommandContext ctx, [Description("How long should the poll last.")]
+			TimeSpan duration, [Description("What the poll is about.")] params string[] topicc)
 		{
+			var topic = string.Join(' ', topicc);
 			// first retrieve the interactivity module from the client
 			var interactivity = ctx.Client.GetInteractivity();
 
