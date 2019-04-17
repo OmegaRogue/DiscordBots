@@ -86,7 +86,7 @@ namespace OmegaBot.Commands
 		}
 
 		[Command("vote"), Description("Run a poll with Upvote and Downvote.")]
-		public async Task VoteAsync(CommandContext ctx, [Description("What the poll is about.")] string topic ,[Description("How long should the poll last.")]
+		public async Task VoteAsync(CommandContext ctx, [Description("What the poll is about.")] string topic, [Description("How long should the poll last.")]
 			TimeSpan duration)
 		{
 			// first retrieve the interactivity module from the client
@@ -100,15 +100,14 @@ namespace OmegaBot.Commands
 			var embed = new DiscordEmbedBuilder
 			{
 				Title = ":tada::tada: Vote time! :tada::tada:",
-				Description = "Vote about " + topic + "\n:thumbsup:: yes\n:thumbsdown:: REEEE"
+				Description = "Vote about " + topic + "\n\n:thumbsup:: yes\n\n:thumbsdown:: REEEE"
 			};
 			var msg = await ctx.RespondAsync(embed: embed);
 
-
-			var poll = await Interactiviti.DoPollAsync(msg, new[] {upVote, downVote}, PollBehaviour.Default, duration);
-
+			var poll = await interactivity.DoPollAsync(msg, new[] {upVote, downVote}, PollBehaviour.Default, duration);
 			// and finally post the results
 			await ctx.RespondAsync(string.Join("\n", poll));
+			
 		}
 
 		#endregion
