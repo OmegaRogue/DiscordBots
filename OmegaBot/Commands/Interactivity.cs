@@ -107,6 +107,18 @@ namespace OmegaBot.Commands
 
 			var poll = await interactivity.DoPollAsync(msg, new[] {upVote, downVote}, PollBehaviour.Default, duration);
 			// and finally post the results
+			if (poll[0].Total > poll[1].Total)
+			{
+				await ctx.RespondAsync("yee\nVote won by " + (poll[0].Total-poll[1].Total) + " Votes\nhttps://tenor.com/view/yee-gif-8561646");
+			} 
+			else if (poll[0].Total < poll[1].Total)
+			{
+				await ctx.RespondAsync("*Autistic Screeching*\nLost by " + (poll[1].Total-poll[0].Total) + " Votes\nhttps://tenor.com/view/ree-pepe-triggered-angry-ahhhh-gif-13627544");
+			}
+			else
+			{
+				await ctx.RespondAsync("It's a draw!\nhttps://tenor.com/view/monty-python-draw-gif-5447899");
+			}
 			await ctx.RespondAsync(string.Join("\n", poll));
 			
 		}
