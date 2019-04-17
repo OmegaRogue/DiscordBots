@@ -101,7 +101,7 @@ namespace OmegaBot.Commands
 			var embed = new DiscordEmbedBuilder
 			{
 				Title = ":tada::tada: Vote time! :tada::tada:",
-				Description = "Vote about " + topic + "\n\n:thumbsup:: yes\n\n:thumbsdown:: REEEE"
+				Description = "Vote about " + topic + "\n\n:thumbsup:: yee\n\n:thumbsdown:: REEEE"
 			};
 			var msg = await ctx.RespondAsync(embed: embed);
 
