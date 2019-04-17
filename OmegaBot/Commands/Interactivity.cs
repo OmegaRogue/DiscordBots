@@ -23,17 +23,17 @@ namespace OmegaBot.Commands
 		const string YesRegex = "[Yy][Ee]?[Ss]?";
 		const string NoRegex = "[Nn][Oo]?";
 
-		
+
 		//▲►▼◄═║╔╗╚╝╠╣╦╩╬─│┌┐└┘├┤┬┴┼╒╓╕╖╘╙╛╜╞╟╡╢╤╥╧╨╪╫
 
-		
-		public InteractivityExtension Interactiviti { get;}
+
+		public InteractivityExtension Interactiviti { get; }
 
 		public Interactivity(InteractivityExtension interactiviti)
 		{
 			Interactiviti = interactiviti;
 		}
-		
+
 
 
 		#region confirmation
@@ -43,8 +43,8 @@ namespace OmegaBot.Commands
 		{
 			await ctx.RespondAsync("Are you sure?");
 			var m = await Interactiviti.WaitForMessageAsync(x => x.Channel.Id == ctx.Channel.Id
-			                                       && x.Author.Id == ctx.Member.Id
-			                                       && Regex.IsMatch(x.Content, ConfirmRegex));
+			                                                     && x.Author.Id == ctx.Member.Id
+			                                                     && Regex.IsMatch(x.Content, ConfirmRegex));
 			if (Regex.IsMatch(m.Result.Content, YesRegex))
 				await ctx.RespondAsync("Confirmation Received");
 			else
@@ -84,9 +84,9 @@ namespace OmegaBot.Commands
 			// and finally post the results
 			await ctx.RespondAsync(string.Join("\n", results));
 		}
-		
+
 		[Command("vote"), Description("Run a poll with Upvote and Downvote.")]
-		public async Task VoteAsync(CommandContext ctx, [Description("How long should the poll last.")]
+		public async Task VoteAsync(CommandContext ctx, [Description("What the poll is about.")] string topic ,[Description("How long should the poll last.")]
 			TimeSpan duration, [Description("What options should people have.")]
 			params DiscordEmoji[] options)
 		{
@@ -94,10 +94,11 @@ namespace OmegaBot.Commands
 			var interactivity = ctx.Client.GetInteractivity();
 			var pollOptions = options.Select(xe => xe.ToString());
 
+			
 			// then let's present the poll
 			var embed = new DiscordEmbedBuilder
 			{
-				Title = "Poll time!",
+				Title = topic,
 				Description = string.Join(" ", pollOptions)
 			};
 			var msg = await ctx.RespondAsync(embed: embed);
