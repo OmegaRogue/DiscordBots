@@ -6,6 +6,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using OmegaBot.Commands;
 using OmegaBot.Entities;
@@ -15,10 +16,10 @@ namespace OmegaBot
 	class Program
 	{
 		
-		public static DiscordClient discord;
+		private static DiscordClient _client;
 
 		private static InteractivityExtension _interactivity;
-		static CommandsNextExtension commands;
+		static CommandsNextExtension _commands;
 
 		private static Config _config;
 		
@@ -44,7 +45,7 @@ namespace OmegaBot
 		{
 			_config = Config.LoadFromFile("config.json");
 			
-			discord = new DiscordClient(new DiscordConfiguration
+			_client = new DiscordClient(new DiscordConfiguration
 			{
 				Token = _config.Token,
 				TokenType = TokenType.Bot,
@@ -52,14 +53,16 @@ namespace OmegaBot
 				LogLevel = LogLevel.Debug
 
 			});
+
+			_interactivity = _client.UseInteractivity(new InteractivityConfiguration {PollBehaviour = PollBehaviour.DeleteEmojis});
 			
 			var deps = new ServiceCollection()
-				.AddSingleton(new Random()).AddSingleton(CancelSource)
+				.AddSingleton(new Random()).AddSingleton(CancelSource).AddSingleton(_interactivity)
 				.BuildServiceProvider();
 			
 			
 			
-			commands = discord.UseCommandsNext(new CommandsNextConfiguration
+			_commands = _client.UseCommandsNext(new CommandsNextConfiguration
 			{
 				StringPrefixes = _config.DefaultPrefixes,
 				DmHelp = _config.DmHelp,
@@ -71,7 +74,7 @@ namespace OmegaBot
 			});
 			
 
-			discord.MessageCreated += async e =>
+			_client.MessageCreated += async e =>
 			{
 				if (e.Channel.Topic.Contains("OmegaBot Poll"))
 				{
@@ -84,15 +87,15 @@ namespace OmegaBot
 
 			
 			
-			commands.RegisterCommands<General>();
-			commands.RegisterCommands<Maths>();
-			commands.RegisterCommands<Interactivity>();
-			commands.RegisterCommands<Owner>();
+			_commands.RegisterCommands<General>();
+			_commands.RegisterCommands<Maths>();
+			_commands.RegisterCommands<Interactivity>();
+			_commands.RegisterCommands<Owner>();
 
-			await (await (await discord.GetChannelAsync(539979481969065984)).GetMessageAsync(567713416915976214))
-				.CreateReactionAsync(DiscordEmoji.FromName(discord,":thumbsup:"));
+			await (await (await _client.GetChannelAsync(539979481969065984)).GetMessageAsync(567713416915976214))
+				.CreateReactionAsync(DiscordEmoji.FromName(_client,":thumbsup:"));
 			
-			await discord.ConnectAsync();
+			await _client.ConnectAsync();
 			await Task.Delay(-1, Cancel);
 
 		}
@@ -107,7 +110,7 @@ namespace OmegaBot
 
 		static async Task ExitAsync()
 		{
-			await discord.UpdateStatusAsync(userStatus: UserStatus.Offline);
+			await _client.UpdateStatusAsync(userStatus: UserStatus.Offline);
 		}
 	}
 }
