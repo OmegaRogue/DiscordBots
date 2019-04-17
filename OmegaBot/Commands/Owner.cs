@@ -26,11 +26,5 @@ namespace OmegaBot.Commands
 			await ctx.RespondAsync("Shutting down!");
 			Cts.Cancel();
 		}
-
-		[Command("Execute")]
-		public async Task ExecuteAsync(CommandContext ctx)
-		{
-			
-		}
 	}
 }
