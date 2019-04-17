@@ -11,7 +11,7 @@ using Microsoft.CSharp;
 namespace OmegaBot.Commands
 {
 	[Group("owner"), Aliases("o"), RequireOwner]
-	internal class Owner
+	internal class Owner : BaseCommandModule
 	{
 		public CancellationTokenSource Cts { get; }
 

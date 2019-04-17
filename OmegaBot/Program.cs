@@ -86,6 +86,8 @@ namespace OmegaBot
 			
 			commands.RegisterCommands<General>();
 			commands.RegisterCommands<Maths>();
+			commands.RegisterCommands<Interactivity>();
+			commands.RegisterCommands<Owner>();
 
 			await (await (await discord.GetChannelAsync(539979481969065984)).GetMessageAsync(567713416915976214))
 				.CreateReactionAsync(DiscordEmoji.FromName(discord,":thumbsup:"));
